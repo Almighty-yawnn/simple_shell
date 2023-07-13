@@ -1,1 +1,1 @@
-This is a simple shell project by Naffisat Nafeesah Salaudeen and Herbert Mantey 
+This is a simple shell project by Naffisat Salaudeen and Herbert Mantey 
