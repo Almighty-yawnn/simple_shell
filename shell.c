@@ -8,9 +8,11 @@
 
 int main(void)
 {
-	ssize_t n, line;
+	size_t n;
+	ssize_t line;
 	char *buffer = NULL;
 
+	n = 1024;
 	printf("$");
 
 	buffer = malloc(n);
@@ -20,13 +22,13 @@ int main(void)
 		return (0);
 	}
 
+	line = 0;
 	line = getline(&buffer, &n, stdin);
 	if (line == -1)
 	{
-		free(buffer);
-		printf("error");
+		exit(EXIT_FAILURE);
 	}
-	printf("%s %ld\n", buffer, line);
+ 
 	free(buffer);
 	return (0);
 }
