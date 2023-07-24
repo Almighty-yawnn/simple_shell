@@ -1,5 +1,11 @@
 #include "shell.h"
 
+/**
+ * _getenv - To get the environment variables
+ * @var: Variable to be retrieved
+ * Return: Path
+ */
+
 char *_getenv(char *var)
 {
 	char **env = environ;
@@ -23,6 +29,13 @@ char *_getenv(char *var)
 	}
 	return (path);
 }
+
+/**
+ * _realloc - A custom realloc implementation
+ * @p: A pointer to the memory block
+ * @size: New size of the memory block
+ * Return: New pointer to memory block
+ */
 
 void *_realloc(void *p, size_t size)
 {
@@ -48,6 +61,14 @@ void *_realloc(void *p, size_t size)
 	free(p);
 	return (n_ptr);
 }
+
+/**
+ * _strncmp - A custom implementation of string compare
+ * @s1: Pointer to first string to be compared
+ * @s2: Pointer to second string to be compared
+ * @n: number of characters to be compared
+ * Return: first point - second pointer
+ */
 
 int _strncmp(char *s1, char *s2, size_t n)
 {

@@ -1,5 +1,11 @@
 #include "shell.h"
 
+/**
+ * _strlen - A custom implementation of string length
+ * @str: A pointer to the first character of a string
+ * Return: The length of the string
+ */
+
 int _strlen(char *str)
 {
 	int count = 0;
@@ -11,6 +17,13 @@ int _strlen(char *str)
 	}
 	return (count);
 }
+
+/**
+ * _tok - To tokenize a given string
+ * @buffer: A pointer to the input string
+ * @delim: A pointer to a null-terminated string
+ * Return: Result
+ */
 
 char **_tok(char *buffer, const char *delim)
 {

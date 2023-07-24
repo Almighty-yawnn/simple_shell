@@ -14,6 +14,13 @@
 
 extern char **environ;
 
+/**
+ * struct builtin - To define a custom data structure for builtin commands
+ * @cmd: Command string
+ * @act: Function pointer
+ * Return: Nothhing
+ */
+
 typedef struct builtin
 {
 	char *cmd;
@@ -22,7 +29,7 @@ typedef struct builtin
 
 int _builtin(char **tokens);
 int _env(void);
-void _exec(char * buffer, char **token);
+void _exec(char  *buffer, char **token);
 int _strlen(char *str);
 char **_tok(char *buffer, const char *delim);
 char *_getenv(char *var);

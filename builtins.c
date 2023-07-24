@@ -1,5 +1,11 @@
 #include "shell.h"
 
+/**
+ * _env - To print the current environment variables
+ *
+ * Return: Nothing
+ */
+
 int _env(void)
 {
 	int i;
@@ -13,6 +19,12 @@ int _env(void)
 	}
 	return (0);
 }
+
+/**
+ * _builtin - To check if a given command is a builtin command
+ * @tokens: Array of strings
+ * Return: -1
+ */
 
 int _builtin(char **tokens)
 {

@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * _strcpy - A custom implementation of a string copy
+ * @d: pointer to the destination buffer
+ * @s: pointer to the source string
+ * Return: The original address of the destination buffer
+ */
+
 char *_strcpy(char *d, char *s)
 {
 	int i;
@@ -15,6 +22,12 @@ char *_strcpy(char *d, char *s)
 	d[i] = '\0';
 	return (res);
 }
+
+/**
+ * _strdup - A custom implementation of a string duplicate
+ * @s: A pointer to the source string
+ * Return: The original address of the destination buffer
+ */
 
 char *_strdup(char *s)
 {
@@ -46,6 +59,13 @@ char *_strdup(char *s)
 	return (res);
 }
 
+/**
+ * _strchr - A custom implementation of a string character
+ * @s: A pointer to the source string
+ * @c: The character to be found in a given string
+ * Return: NULL
+ */
+
 char *_strchr(char  *s, int c)
 {
 	while (*s != '\0')
@@ -56,6 +76,13 @@ char *_strchr(char  *s, int c)
 	}
 	return (NULL);
 }
+
+/**
+ * _strcmp - A custom implementation of string compare
+ * @s1: The pointer to the first string to be compared
+ * @s2: The pointer to second string to be compared
+ * Return: The difference between the first and second string
+ */
 
 int _strcmp(char *s1, char *s2)
 {
@@ -68,6 +95,13 @@ int _strcmp(char *s1, char *s2)
 	}
 	return (*s1 - *s2);
 }
+
+/**
+ * _strcat - A custom implementation of string concatenate
+ * @d: A pointer to the destination string
+ * @s: A pointer to the source
+ * Return: Original destination
+ */
 
 char *_strcat(char *d, char *s)
 {

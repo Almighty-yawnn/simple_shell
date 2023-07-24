@@ -1,5 +1,11 @@
 #include "shell.h"
 
+/**
+ * path_checker - Used to check full path of a command
+ * @token: Array of strings
+ * Return: Full path
+ */
+
 char *path_checker(char **token)
 {
 	char *full_path, *get_path;
@@ -44,6 +50,11 @@ char *path_checker(char **token)
 	return (full_path);
 }
 
+/**
+ * command_path - To determine the full path of a command
+ * @token: Array of strings
+ * Return: NULL
+ */
 
 char *command_path(char **token)
 {
