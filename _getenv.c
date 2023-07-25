@@ -123,12 +123,12 @@ ssize_t _getline(char **line, size_t *n, FILE *str)
 				}
 				*line = n_line;
 				*n = size;
-				(*line)[i++] = buffer[j];
-				if (buffer[j] == '\0')
-				{
-					(*line)[i] = '\0';
-					return (i);
-				}
+			}
+			(*line)[i++] = buffer[j];
+			if (buffer[j] == '\n')
+			{
+				(*line)[i] = '\0';
+				return (i);
 			}
 		}
 	}
