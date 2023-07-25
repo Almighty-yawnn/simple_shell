@@ -18,6 +18,50 @@ int _strlen(char *str)
 	return (count);
 }
 
+char *_strtok(char *s, const char *delim)
+{
+	char *res, *last = NULL;
+
+	if (s != NULL)
+	{
+		last = s;
+	}
+	else
+	{
+		if(last == NULL)
+		{
+			return (NULL);
+		}
+		s = last;
+	}
+
+	while (*s != '\0' && _strchr((char *)delim, *s) != NULL)
+	{
+		s++;
+	}
+	if (*s == '\0')
+	{
+		last = NULL;
+		return (NULL);
+	}
+	res = s;
+	while (*s != '\0' && _strchr((char *)delim, *s) == NULL)
+	{
+		s++;
+	}
+	if (*s != '\0')
+	{
+		*s = '\0';
+		last = s + 1;
+	}
+	else
+	{
+		last = NULL;
+	}
+	return (res);
+}
+
+
 /**
  * _tok - To tokenize a given string
  * @buffer: A pointer to the input string
@@ -41,7 +85,7 @@ char **_tok(char *buffer, const char *delim)
 		perror("Memoory allocation error for result");
 		exit(EXIT_FAILURE);
 	}
-	token = strtok(buffer, delim);
+	token = _strtok(buffer, delim);
 	while (token != NULL)
 	{
 		if (i >= token_size)
@@ -57,7 +101,7 @@ char **_tok(char *buffer, const char *delim)
 		}
 		result[i] = _strdup(token);
 		i++;
-		token = strtok(NULL, delim);
+		token = _strtok(NULL, delim);
 	}
 	result[i] = NULL;
 	if (_strcmp(result[0], "exit") == 0)

@@ -102,9 +102,9 @@ ssize_t _getline(char **line, size_t *n, FILE *str)
 	size_t i, size;
 	static char buffer[1024];
 	char *n_line;
-	ssize_t byte; 
+	ssize_t byte;
 	static ssize_t j;
-	
+
 	if (!line || !n || !str)
 		return (-1);
 	size = *n;
