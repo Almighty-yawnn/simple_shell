@@ -89,11 +89,21 @@ int _strncmp(char *s1, char *s2, size_t n)
 	return (*s1 - *s2);
 }
 
+/**
+ * _getline - A custom implementation of getline function
+ * @line: A pointer to a pointer to store address of buffer
+ * @n: A pointer to the size of the buffer
+ * @str: The file to b read
+ * Return: i
+ */
+
 ssize_t _getline(char **line, size_t *n, FILE *str)
 {
 	size_t i, size;
-	char buffer[1024], *n_line;
-	ssize_t byte, j;
+	static char buffer[1024];
+	char *n_line;
+	ssize_t byte; 
+	static ssize_t j;
 	
 	if (!line || !n || !str)
 		return (-1);
