@@ -92,7 +92,7 @@ int _strncmp(char *s1, char *s2, size_t n)
 ssize_t _getline(char **line, size_t *n, FILE *str)
 {
 	size_t i, size;
-	char buffer[200], *n_line;
+	char buffer[1024], *n_line;
 	ssize_t byte, j;
 	
 	if (!line || !n || !str)
@@ -100,7 +100,7 @@ ssize_t _getline(char **line, size_t *n, FILE *str)
 	size = *n;
 	if (*line == NULL || *n == 0)
 	{
-		size = 200;
+		size = 1024;
 		*line = malloc(size);
 		if (*line == NULL)
 			return (-1);
@@ -123,12 +123,12 @@ ssize_t _getline(char **line, size_t *n, FILE *str)
 				}
 				*line = n_line;
 				*n = size;
-			}
-			(*line)[i++] = buffer[j];
-			if (buffer[j] == '\0')
-			{
-				(*line)[i] = '\0';
-				return (i);
+				(*line)[i++] = buffer[j];
+				if (buffer[j] == '\0')
+				{
+					(*line)[i] = '\0';
+					return (i);
+				}
 			}
 		}
 	}
