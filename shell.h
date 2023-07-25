@@ -43,5 +43,6 @@ int _strcmp(char *s1, char *s2);
 char *_strchr(char  *s, int c);
 int _strncmp(char *s1, char *s2, size_t n);
 void *_realloc(void *p, size_t size);
+ssize_t _getline(char **line, size_t *n, FILE *str);
 
 #endif

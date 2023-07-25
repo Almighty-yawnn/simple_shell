@@ -88,3 +88,56 @@ int _strncmp(char *s1, char *s2, size_t n)
 	}
 	return (*s1 - *s2);
 }
+
+ssize_t _getline(char **line, size_t *n, FILE *str)
+{
+	size_t i, size;
+	char buffer[200], *n_line;
+	ssize_t byte, j;
+	
+	if (!line || !n || !str)
+		return (-1);
+	size = *n;
+	if (*line == NULL || *n == 0)
+	{
+		size = 200;
+		*line = malloc(size);
+		if (*line == NULL)
+			return (-1);
+		*n = size;
+	}
+	i = 0;
+	while ((byte = read(fileno(str), buffer, sizeof(buffer))) > 0)
+	{
+		for (j = 0; j < byte; j++)
+		{
+			if (i + 1 >= size)
+			{
+				size *= 2;
+				n_line = _realloc(*line, size);
+				if (n_line == NULL)
+				{
+					free(*line);
+					*line = NULL;
+					return (-1);
+				}
+				*line = n_line;
+				*n = size;
+			}
+			(*line)[i++] = buffer[j];
+			if (buffer[j] == '\0')
+			{
+				(*line)[i] = '\0';
+				return (i);
+			}
+		}
+	}
+	if (i == 0 && byte == 0)
+	{
+		free(*line);
+		*line = NULL;
+		return (-1);
+	}
+	(*line)[i] = '\0';
+	return (i);
+}

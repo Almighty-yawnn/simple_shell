@@ -28,7 +28,7 @@ void run(char *prompt, char *program)
 	{
 		write(STDOUT_FILENO, prompt, _strlen(prompt));
 		fflush(stdout);
-		line = getline(&buffer, &n, stdin);
+		line = _getline(&buffer, &n, stdin);
 		if (line == -1)
 		{
 			if (feof(stdin))
