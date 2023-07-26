@@ -8,6 +8,9 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <malloc.h>
+#include <signal.h>
+#include <stddef.h>
+
 
 #define UNUSED_VAR(var) ((void)(var))
 

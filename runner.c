@@ -13,7 +13,7 @@ void run(char *prompt, char *program)
 	size_t n;
 	ssize_t line;
 	char *pathfind;
-	char **token;
+	char **token = NULL;
 	int builtin_checker, i;
 
 	n = 1024;
@@ -35,16 +35,27 @@ void run(char *prompt, char *program)
 			{
 				write(STDOUT_FILENO, "\n", 1);
 				free(buffer);
+				if (token != NULL)
+				{
+					 for (i = 0; token[i] != NULL; i++)
+					 {
+						 free(token[i]);
+					 }
+					 free(token);
+				}
 				exit(EXIT_SUCCESS);
 			}
 			else
 			{
-				for (i = 0; token[i] != NULL; i++)
-				{
-					free(token[i]);
-				}
-				free(token);
 				free(buffer);
+				if (token != NULL)
+				{
+					for (i = 0; token[i] != NULL; i++)
+					{
+						free(token[i]);
+					}
+					free(token);
+				}
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -53,7 +64,21 @@ void run(char *prompt, char *program)
 			continue;
 		}
 		buffer[line - 1] = '\0';
+		if (token != NULL)
+		{
+			for (i = 0; token[i] != NULL; i++)
+			{
+				free(token[i]);
+			}
+			free(token);
+			token = NULL;
+		}
 		token = _tok(buffer, " ");
+		if (token == NULL)
+		{
+			free(buffer);
+			exit(EXIT_FAILURE);
+		}
 		builtin_checker = _builtin(token);
 		if (builtin_checker == -1)
 		{
@@ -71,11 +96,14 @@ void run(char *prompt, char *program)
 				write(STDERR_FILENO, ": not found\n", 12);
 			}
 		}
+	}
+	free(buffer);
+	if (token != NULL)
+	{
 		for (i = 0; token[i] != NULL; i++)
 		{
 			free(token[i]);
 		}
 		free(token);
 	}
-	free(buffer);
 }
