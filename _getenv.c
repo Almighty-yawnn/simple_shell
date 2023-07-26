@@ -9,25 +9,27 @@
 char *_getenv(char *var)
 {
 	char **env = environ;
-	size_t var_len = _strlen(var);
-	char *path = NULL;
+	size_t i, var_len;
+	char *path;
 
+	if (var == NULL || *var == '\0')
+		return (NULL);
 	while (*env != NULL)
 	{
-		if (_strncmp(*env, var, var_len) == 0 && (*env)[var_len] == '=')
+		var_len = _strlen(var);
+		path = *env;
+		i = 0;
+		while(i < var_len && var[i] == path[i])
 		{
-			path = malloc(_strlen(*env) - var_len);
-			if (path == NULL)
-			{
-				perror("Memory allocation error");
-				exit(EXIT_FAILURE);
-			}
-			_strcpy(path, *env + var_len + 1);
-			break;
+			i++;
+		}
+		if (i == var_len && path[i] == '=')
+		{
+			return (path + i + 1);
 		}
 		env++;
 	}
-	return (path);
+	return (NULL);
 }
 
 /**

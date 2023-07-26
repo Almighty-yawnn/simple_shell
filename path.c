@@ -9,45 +9,34 @@
 char *path_checker(char **token)
 {
 	char *full_path, *get_path;
-	char **tok_path;
-	int i, j;
+	char *tok_path;
+	int i;
 
-	get_path = _getenv("PATH");
-	tok_path = _tok(get_path, ":");
+	get_path = _strdup(_getenv("PATH"));
+	tok_path = _strtok(get_path, ":");
 	full_path = NULL;
 
-	i = 0;
-	while (tok_path[i] != NULL)
+	for (i = 0; tok_path != NULL; i++)
 	{
-		full_path = malloc(_strlen(tok_path[i]) + _strlen(token[0]) + 2);
+		full_path = malloc(_strlen(tok_path) + _strlen(token[0]) + 2);
 		if (full_path == NULL)
 		{
 			perror("Memory allocation error for full path");
 			exit(EXIT_FAILURE);
 		}
-		_strcpy(full_path, tok_path[i]);
+		_strcpy(full_path, tok_path);
 		_strcat(full_path, "/");
 		_strcat(full_path, token[0]);
 		if (access(full_path, X_OK) == 0)
 		{
-			break;
+			free(get_path);
+			return (full_path);
 		}
 		free(full_path);
-		full_path = NULL;
-		i++;
+		tok_path = _strtok(NULL, ":");
 	}
-
-	for (j = 0; tok_path[j] != NULL; j++)
-	{
-		free(tok_path[j]);
-	}
-	free(tok_path);
-	if (full_path == NULL)
-	{
-		return (NULL);
-	}
-
-	return (full_path);
+	free(get_path);
+	return (NULL);
 }
 
 /**

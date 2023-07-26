@@ -13,7 +13,7 @@ void run(char *prompt, char *program)
 	size_t n;
 	ssize_t line;
 	char *pathfind;
-	char **token = NULL;
+	char **result, **token = NULL;
 	int builtin_checker, i;
 
 	n = 1024;
@@ -73,12 +73,13 @@ void run(char *prompt, char *program)
 			free(token);
 			token = NULL;
 		}
-		token = _tok(buffer, " ");
-		if (token == NULL)
+		result = _tok(buffer, " ");
+		if (result == NULL)
 		{
 			free(buffer);
 			exit(EXIT_FAILURE);
 		}
+		token = result;
 		builtin_checker = _builtin(token);
 		if (builtin_checker == -1)
 		{

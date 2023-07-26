@@ -111,6 +111,10 @@ char **_tok(char *buffer, const char *delim)
 	result[i] = NULL;
 	if (_strcmp(result[0], "exit") == 0)
 	{
+		for (i = 0; result[i] != NULL; i++)
+		{
+			free(result[i]);
+		}
 		free(result);
 		exit(EXIT_SUCCESS);
 	}
