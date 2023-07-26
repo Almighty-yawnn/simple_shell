@@ -15,6 +15,7 @@ void _exec(char *pathfinder, char **token)
 	child_pid = fork();
 	if (child_pid == -1)
 	{
+	
 		perror("fork");
 		exit(EXIT_FAILURE);
 	}
@@ -28,6 +29,7 @@ void _exec(char *pathfinder, char **token)
 	}
 	else
 	{
-		wait(&status);
+		if (waitpid(child_pid, &status, WUNTRACED) == -1)
+			exit(EXIT_FAILURE);
 	}
 }

@@ -14,7 +14,6 @@
 
 #define UNUSED_VAR(var) ((void)(var))
 
-
 extern char **environ;
 
 /**
