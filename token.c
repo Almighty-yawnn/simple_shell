@@ -20,7 +20,8 @@ int _strlen(char *str)
 
 char *_strtok(char *s, const char *delim)
 {
-	char *res, *last = NULL;
+	char *res;
+	static char *last = NULL;
 
 	if (s != NULL)
 	{
