@@ -39,6 +39,11 @@ void run(char *prompt, char *program)
 			}
 			else
 			{
+				for (i = 0; token[i] != NULL; i++)
+				{
+					free(token[i]);
+				}
+				free(token);
 				free(buffer);
 				exit(EXIT_FAILURE);
 			}
