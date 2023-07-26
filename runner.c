@@ -96,6 +96,8 @@ void run(char *prompt, char *program)
 				write(STDERR_FILENO, token[0], _strlen(token[0]));
 				write(STDERR_FILENO, ": not found\n", 12);
 			}
+			free(buffer);
+			exit(EXIT_SUCCESS);
 		}
 	}
 	free(buffer);
