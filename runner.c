@@ -39,7 +39,6 @@ void run(char *prompt, char *program)
 			}
 			else
 			{
-				perror("Getline");
 				free(buffer);
 				exit(EXIT_FAILURE);
 			}
