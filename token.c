@@ -17,6 +17,12 @@ int _strlen(char *str)
 	}
 	return (count);
 }
+/**
+ * _strtok - A custom implementation of string token
+ * @s: The pointer to the input string
+ * @delim: The pointer to a null-terminated string
+ * Return: Res
+ */
 
 char *_strtok(char *s, const char *delim)
 {
