@@ -27,15 +27,13 @@ int _strlen(char *str)
 char *_strtok(char *s, const char *delim)
 {
 	char *res;
-	static char *last = NULL;
+	static char *last;
 
 	if (s != NULL)
-	{
 		last = s;
-	}
 	else
 	{
-		if(last == NULL)
+		if (last == NULL)
 		{
 			return (NULL);
 		}

@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	UNUSED_VAR(argc);
 	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
 	{
-		prompt = "Cisfun$ ";
+		prompt = "($) ";
 	}
 	run(prompt, program);
 	return (0);
