@@ -1,125 +1,58 @@
 #include "shell.h"
 
-/**
- * **strtow - splits a string into words. Repeat delimiters are ignored
- * @str: the input string
- * @d: the delimeter string
- *
- * Return: a pointer to an array of strings, or NULL on failure
- */
-
-char **strtow(char *str, char *d)
+int _strlen(char *str)
 {
-	int i, j, k, m, numwords = 0;
-	char **s;
-
-	if (str == NULL || str[0] == 0)
-		return (NULL);
-
-	if (!d)
-		d = " ";
-
-	for (i = 0; str[i] != '\0'; i++)
-		if (!is_delim(str[i], d) && (is_delim(str[i + 1], d) || !str[i + 1]))
-			numwords++;
-
-	if (numwords == 0)
-		return (NULL);
-
-	s = malloc((1 + numwords) * sizeof(char *));
-
-	if (!s)
-		return (NULL);
-
-	for (i = 0, j = 0; j < numwords; j++)
+        int count = 0;
+	
+	while (*str != '\0')
 	{
-		while (is_delim(str[i], d))
-			i++;
-		k = 0;
-
-		while (!is_delim(str[i + k], d) && str[i + k])
-			k++;
-
-		s[j] = malloc((k + 1) * sizeof(char));
-
-		if (!s[j])
-		{
-			for (k = 0; k < j; k++)
-				free(s[k]);
-
-			free(s);
-
-			return (NULL);
-		}
-
-		for (m = 0; m < k; m++)
-			s[j][m] = str[i++];
-
-		s[j][m] = 0;
+		count++;
+		str++;
 	}
-
-	s[j] = NULL;
-
-	return (s);
+	return (count);
 }
 
-/**
- * **strtow2 - splits a string into words
- * @str: the input string
- * @d: the delimeter
- *
- * Return: a pointer to an array of strings, or NULL on failure
- */
-
-char **strtow2(char *str, char d)
+char **_tok(char *buffer, const char* delim)
 {
-	int i, j, k, m, numwords = 0;
-	char **s;
+	size_t i;
+	char **result;
+	char *token;
+        size_t token_size;
+	char **temp;
 
-	if (str == NULL || str[0] == 0)
-		return (NULL);
-
-	for (i = 0; str[i] != '\0'; i++)
-		if ((str[i] != d && str[i + 1] == d) ||
-				    (str[i] != d && !str[i + 1]) || str[i + 1] == d)
-			numwords++;
-
-	if (numwords == 0)
-		return (NULL);
-
-	s = malloc((1 + numwords) * sizeof(char *));
-
-	if (!s)
-		return (NULL);
-
-	for (i = 0, j = 0; j < numwords; j++)
+	i = 0;
+	token_size = 8;
+	result = malloc((token_size) * sizeof(char *));
+	if (result == NULL)
 	{
-		while (str[i] == d && str[i] != d)
-			i++;
-
-		k = 0;
-
-		while (str[i + k] != d && str[i + k] && str[i + k] != d)
-			k++;
-
-		s[j] = malloc((k + 1) * sizeof(char));
-
-		if (!s[j])
-		{
-			for (k = 0; k < j; k++)
-				free(s[k]);
-
-			free(s);
-
-			return (NULL);
-		}
-
-		for (m = 0; m < k; m++)
-			s[j][m] = str[i++];
-		s[j][m] = 0;
+		perror("Memoory allocation error for result");
+		exit(EXIT_FAILURE);
 	}
 
-	s[j] = NULL;
+	token = strtok(buffer, delim);
+	while (token != NULL)
+	{
+		if (i >= token_size)
+		{
+			token_size *= 2;
+			temp = _realloc(result, token_size * sizeof(char *));
+			if (temp == NULL)
+			{
+				perror("Memory allocation error for temp");
+				exit(EXIT_FAILURE);
+			}
+			result = temp;
+		}
+		result[i] = _strdup(token);
+		i++;
+		token = strtok(NULL, delim);
 
-	return (s);
+	}
+	result[i] = NULL;
+	if (_strcmp(result[0], "exit") == 0)
+	{
+		free(result);
+		exit(EXIT_SUCCESS);
+	}
+        return (result);
 }
