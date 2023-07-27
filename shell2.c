@@ -7,7 +7,7 @@ void run(char *prompt, char *program)
         ssize_t line;
 	char *pathfind;
 	char **token;
-	int builtin_checker, i;
+	int builtin_checker, i, buflen;
 
         n = 1024;
         buffer = malloc(n);
@@ -41,6 +41,9 @@ void run(char *prompt, char *program)
 			continue;
 		}
 		buffer[line - 1] = '\0';
+		buflen = _strlen(buffer);
+	        if (buffer[buflen - 1] == '\n')
+	                buffer[buflen - 1] = '\0';
 		token = _tok(buffer, " ");
 		builtin_checker = _builtin(token);
 		if (builtin_checker == -1)
