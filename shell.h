@@ -1,6 +1,7 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -37,4 +38,4 @@ char *_strchr(char  *s, int c);
 int _strncmp(char *s1, char *s2, size_t n);
 void *_realloc(void *p, size_t size);
 
-#endif
+#endif /* SHELL_H */
