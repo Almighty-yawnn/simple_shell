@@ -1,122 +1,125 @@
 #include "shell.h"
 
 /**
- * _strlen - A custom implementation of string length
- * @str: A pointer to the first character of a string
- * Return: The length of the string
+ * **strtow - splits a string into words. Repeat delimiters are ignored
+ * @str: the input string
+ * @d: the delimeter string
+ *
+ * Return: a pointer to an array of strings, or NULL on failure
  */
 
-int _strlen(char *str)
+char **strtow(char *str, char *d)
 {
-	int count = 0;
+	int i, j, k, m, numwords = 0;
+	char **s;
 
-	while (*str != '\0')
+	if (str == NULL || str[0] == 0)
+		return (NULL);
+
+	if (!d)
+		d = " ";
+
+	for (i = 0; str[i] != '\0'; i++)
+		if (!is_delim(str[i], d) && (is_delim(str[i + 1], d) || !str[i + 1]))
+			numwords++;
+
+	if (numwords == 0)
+		return (NULL);
+
+	s = malloc((1 + numwords) * sizeof(char *));
+
+	if (!s)
+		return (NULL);
+
+	for (i = 0, j = 0; j < numwords; j++)
 	{
-		count++;
-		str++;
-	}
-	return (count);
-}
-/**
- * _strtok - A custom implementation of string token
- * @s: The pointer to the input string
- * @delim: The pointer to a null-terminated string
- * Return: Res
- */
+		while (is_delim(str[i], d))
+			i++;
+		k = 0;
 
-char *_strtok(char *s, const char *delim)
-{
-	char *res;
-	static char *last;
+		while (!is_delim(str[i + k], d) && str[i + k])
+			k++;
 
-	if (s != NULL)
-		last = s;
-	else
-	{
-		if (last == NULL)
+		s[j] = malloc((k + 1) * sizeof(char));
+
+		if (!s[j])
 		{
+			for (k = 0; k < j; k++)
+				free(s[k]);
+
+			free(s);
+
 			return (NULL);
 		}
-		s = last;
+
+		for (m = 0; m < k; m++)
+			s[j][m] = str[i++];
+
+		s[j][m] = 0;
 	}
 
-	while (*s != '\0' && _strchr((char *)delim, *s) != NULL)
-	{
-		s++;
-	}
-	if (*s == '\0')
-	{
-		last = NULL;
-		return (NULL);
-	}
-	res = s;
-	while (*s != '\0' && _strchr((char *)delim, *s) == NULL)
-	{
-		s++;
-	}
-	if (*s != '\0')
-	{
-		*s = '\0';
-		last = s + 1;
-	}
-	else
-	{
-		last = NULL;
-	}
-	return (res);
+	s[j] = NULL;
+
+	return (s);
 }
 
-
 /**
- * _tok - To tokenize a given string
- * @buffer: A pointer to the input string
- * @delim: A pointer to a null-terminated string
- * Return: Result
+ * **strtow2 - splits a string into words
+ * @str: the input string
+ * @d: the delimeter
+ *
+ * Return: a pointer to an array of strings, or NULL on failure
  */
 
-char **_tok(char *buffer, const char *delim)
+char **strtow2(char *str, char d)
 {
-	size_t i;
-	char **result;
-	char *token;
-	size_t token_size;
-	char **temp;
+	int i, j, k, m, numwords = 0;
+	char **s;
 
-	i = 0;
-	token_size = 8;
-	result = malloc((token_size) * sizeof(char *));
-	if (result == NULL)
+	if (str == NULL || str[0] == 0)
+		return (NULL);
+
+	for (i = 0; str[i] != '\0'; i++)
+		if ((str[i] != d && str[i + 1] == d) ||
+				    (str[i] != d && !str[i + 1]) || str[i + 1] == d)
+			numwords++;
+
+	if (numwords == 0)
+		return (NULL);
+
+	s = malloc((1 + numwords) * sizeof(char *));
+
+	if (!s)
+		return (NULL);
+
+	for (i = 0, j = 0; j < numwords; j++)
 	{
-		perror("Memoory allocation error for result");
-		exit(EXIT_FAILURE);
-	}
-	token = _strtok(buffer, delim);
-	while (token != NULL)
-	{
-		if (i >= token_size)
+		while (str[i] == d && str[i] != d)
+			i++;
+
+		k = 0;
+
+		while (str[i + k] != d && str[i + k] && str[i + k] != d)
+			k++;
+
+		s[j] = malloc((k + 1) * sizeof(char));
+
+		if (!s[j])
 		{
-			token_size *= 2;
-			temp = _realloc(result, token_size * sizeof(char *));
-			if (temp == NULL)
-			{
-				perror("Memory allocation error for temp");
-				exit(EXIT_FAILURE);
-			}
-			result = temp;
+			for (k = 0; k < j; k++)
+				free(s[k]);
+
+			free(s);
+
+			return (NULL);
 		}
-		result[i] = _strdup(token);
-		i++;
-		token = _strtok(NULL, delim);
+
+		for (m = 0; m < k; m++)
+			s[j][m] = str[i++];
+		s[j][m] = 0;
 	}
-	result[i] = NULL;
-	if (_strcmp(result[0], "exit") == 0)
-	{
-		for (i = 0; result[i] != NULL; i++)
-		{
-			free(result[i]);
-		}
-		free(result);
-		exit(EXIT_SUCCESS);
-	}
-	return (result);
+
+	s[j] = NULL;
+
+	return (s);
 }

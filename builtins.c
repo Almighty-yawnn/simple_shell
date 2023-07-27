@@ -1,42 +1,104 @@
 #include "shell.h"
 
 /**
- * _env - To print the current environment variables
+ * _myexit - exits the shell
+ * @info: Structure containing potential arguments. Used to maintain
+ * constant function prototype.
  *
- * Return: Nothing
+ * Return: exits with a given exit status
+ * (0) if info.argv[0] != "exit"
  */
 
-int _env(void)
+int _myexit(info_t *info)
 {
-	int i;
+	int e_check;
 
-	i = 0;
-	while (environ[i] != NULL)
+	if (info->argv[1]) /* If there is an exit arguement */
 	{
-		write(STDOUT_FILENO, environ[i], _strlen(environ[i]));
-		write(STDOUT_FILENO, "\n", 1);
-		i++;
+		e_check = _erratoi(info->argv[1]);
+		if (e_check == -1)
+		{
+			info->status = 2;
+			print_error(info, "Illegal number: ");
+			_eputs(info->argv[1]);
+			_eputchar('\n');
+			return (1);
+		}
+		info->err_num = _erratoi(info->argv[1]);
+		return (-2);
+	}
+	info->err_num = -1;
+	return (-2);
+}
+
+/**
+ * _mycd - changes the current directory of the process
+ * @info: Structure containing potential arguments. Used to maintain
+ * constant function prototype.
+ *
+ * Return: Always 0
+ */
+
+int _mycd(info_t *info)
+{
+	char *s, *d, buffer[1024];
+	int chd_ret;
+
+	s = getcwd(buffer, 1024);
+	if (!s)
+		_puts("TODO: >>getcwd failure emsg here<<\n");
+	if (!info->argv[1])
+	{
+		d = _getenv(info, "HOME=");
+		if (!d)
+			chd_ret =
+				chdir((d = _getenv(info, "PWD=")) ? d : "/");
+		else
+			chd_ret = chdir(d);
+	}
+	else if (_strcmp(info->argv[1], "-") == 0)
+	{
+		if (!_getenv(info, "OLDPWD="))
+		{
+			_puts(s);
+			_putchar('\n');
+			return (1);
+		}
+		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
+		chd_ret = /* TODO: what should this be? */
+			chdir((d = _getenv(info, "OLDPWD=")) ? d : "/");
+	}
+	else
+		chd_ret = chdir(info->argv[1]);
+	if (chd_ret == -1)
+	{
+		print_error(info, "can't cd to ");
+		_eputs(info->argv[1]), _eputchar('\n');
+	}
+	else
+	{
+		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
+		_setenv(info, "PWD", getcwd(buffer, 1024));
 	}
 	return (0);
 }
 
 /**
- * _builtin - To check if a given command is a builtin command
- * @tokens: Array of strings
- * Return: -1
+ * _myhelp - changes the current directory of the process
+ * @info: Structure containing potential arguments. Used to maintain
+ * constant function prototype.
+ *
+ * Return: Always 0
  */
 
-int _builtin(char **tokens)
+int _myhelp(info_t *info)
 {
-	built_cmd actions[] = {{"env", _env}, {NULL, NULL}};
-	int i;
+	char **arg_array;
 
-	for (i = 0; actions[i].cmd; i++)
-	{
-		if (_strcmp(actions[i].cmd, tokens[0]) == 0)
-		{
-			return (actions[i].act());
-		}
-	}
-	return (-1);
+	arg_array = info->argv;
+	_puts("help call works. Function not yet implemented \n");
+	if (0)
+		_puts(*arg_array); /* temp att_unused workaround */
+	return (0);
 }
+
