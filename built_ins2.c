@@ -18,47 +18,47 @@ int _myhistory(info_t *info)
 /**
  * unset_alias - sets alias to string
  * @info: parameter struct
- * @str: the string alias
+ * @s: the string alias
  *
  * Return: Always 0 on success, 1 on error
  */
 
-int unset_alias(info_t *info, char *str)
+int unset_alias(info_t *info, char *s)
 {
-	char *p, c;
-	int r;
+	char *pr, ch;
+	int i;
 
-	p = _strchr(str, '=');
-	if (!p)
+	pr = _strchr(s, '=');
+	if (!pr)
 		return (1);
-	c = *p;
-	*p = 0;
-	r = delete_node_at_index(&(info->alias),
-		get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
-	*p = c;
-	return (r);
+	ch = *pr;
+	*pr = 0;
+	i = delete_node_at_index(&(info->alias),
+		get_node_index(info->alias, node_starts_with(info->alias, s, -1)));
+	*pr = ch;
+	return (i);
 }
 
 /**
  * set_alias - sets alias to string
  * @info: parameter struct
- * @str: the string alias
+ * @s: the string alias
  *
  * Return: Always 0 on success, 1 on error
  */
 
-int set_alias(info_t *info, char *str)
+int set_alias(info_t *info, char *s)
 {
-	char *p;
+	char *pr;
 
-	p = _strchr(str, '=');
-	if (!p)
+	pr = _strchr(s, '=');
+	if (!pr)
 		return (1);
-	if (!*++p)
-		return (unset_alias(info, str));
+	if (!*++pr)
+		return (unset_alias(info, s));
 
-	unset_alias(info, str);
-	return (add_node_end(&(info->alias), str, 0) == NULL);
+	unset_alias(info, s);
+	return (add_node_end(&(info->alias), s, 0) == NULL);
 }
 
 /**
@@ -70,16 +70,16 @@ int set_alias(info_t *info, char *str)
 
 int print_alias(list_t *node)
 {
-	char *p = NULL, *a = NULL;
+	char *pr = NULL, *b = NULL;
 
 	if (node)
 	{
-		p = _strchr(node->str, '=');
+		pr = _strchr(node->str, '=');
 
-		for (a = node->str; a <= p; a++)
-		_putchar(*a);
+		for (b = node->str; b <= pr; b++)
+		_putchar(*b);
 		_putchar('\'');
-		_puts(p + 1);
+		_puts(pr + 1);
 		_puts("'\n");
 		return (0);
 	}
@@ -97,7 +97,7 @@ int print_alias(list_t *node)
 int _myalias(info_t *info)
 {
 	int i = 0;
-	char *p = NULL;
+	char *pr = NULL;
 
 	list_t *node = NULL;
 
@@ -115,9 +115,9 @@ int _myalias(info_t *info)
 
 	for (i = 1; info->argv[i]; i++)
 	{
-		p = _strchr(info->argv[i], '=');
+		pr = _strchr(info->argv[i], '=');
 
-		if (p)
+		if (pr)
 		{
 			set_alias(info, info->argv[i]);
 		}
@@ -129,4 +129,3 @@ int _myalias(info_t *info)
 
 	return (0);
 }
-

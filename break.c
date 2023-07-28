@@ -1,19 +1,19 @@
 #include "shell.h"
 
 /**
- * is_cmd - determines if a file is an executable command
+ * is_cmd - determines if it is an executable command
  * @info: the info struct
- * @path: path to the file
+ * @p: path
  *
  * Return: 1 if true, 0 otherwise
  */
 
-int is_cmd(info_t *info, char *path)
+int is_cmd(info_t *info, char *p)
 {
 	struct stat st;
 
 	(void)info;
-	if (!path || stat(path, &st))
+	if (!p || stat(p, &st))
 		return (0);
 
 	if (st.st_mode & S_IFREG)
@@ -26,21 +26,21 @@ int is_cmd(info_t *info, char *path)
 
 /**
  * dup_chars - character duplication
- * @pathstr: PATH string
- * @start: start index
- * @stop: stop index
+ * @str: PATH string
+ * @y: start index
+ * @z: stop index
  *
  * Return: pointer to new buffer
  */
 
-char *dup_chars(char *pathstr, int start, int stop)
+char *dup_chars(char *str, int y, int z)
 {
 	static char buf[1024];
 	int i = 0, k = 0;
 
-	for (k = 0, i = start; i < stop; i++)
-		if (pathstr[i] != ':')
-			buf[k++] = pathstr[i];
+	for (k = 0, i = y; i < z; i++)
+		if (str[i] != ':')
+			buf[k++] = str[i];
 
 	buf[k] = 0;
 
@@ -50,18 +50,18 @@ char *dup_chars(char *pathstr, int start, int stop)
 /**
  * find_path - checks for cmd in the PATH string
  * @info: the info struct
- * @pathstr: the PATH string
+ * @str: the PATH string
  * @cmd: the cmd to find
  *
  * Return: full path of cmd if found or NULL
  */
 
-char *find_path(info_t *info, char *pathstr, char *cmd)
+char *find_path(info_t *info, char *str, char *cmd)
 {
 	int i = 0, c = 0;
 	char *path;
 
-	if (!pathstr)
+	if (!str)
 		return (NULL);
 
 	if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
@@ -72,9 +72,9 @@ char *find_path(info_t *info, char *pathstr, char *cmd)
 
 	while (1)
 	{
-		if (!pathstr[i] || pathstr[i] == ':')
+		if (!str[i] || str[i] == ':')
 		{
-			path = dup_chars(pathstr, c, i);
+			path = dup_chars(str, c, i);
 
 			if (!*path)
 				_strcat(path, cmd);
@@ -88,7 +88,7 @@ char *find_path(info_t *info, char *pathstr, char *cmd)
 			if (is_cmd(info, path))
 				return (path);
 
-			if (!pathstr[i])
+			if (!str[i])
 				break;
 
 			c = i;
